@@ -129,7 +129,7 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Subscription</content>
+        <content>Record</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -137,7 +137,7 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Subscription</content>
+        <content>Record</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -149,25 +149,24 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Users&apos; subscriptions to web push notifications.</description>
+    <description>Album, single or EP (Extended Play).</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>false</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
-    <enableReports>true</enableReports>
+    <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <gender>Feminine</gender>
-    <label>Subscription</label>
+    <gender>Masculine</gender>
+    <label>Record</label>
     <nameField>
-        <displayFormat>{YYYY}{MM}{DD}-{00000}</displayFormat>
-        <label>Subscription</label>
-        <type>AutoNumber</type>
+        <label>Title</label>
+        <type>Text</type>
     </nameField>
-    <pluralLabel>Subscriptions</pluralLabel>
+    <pluralLabel>Records</pluralLabel>
     <searchLayouts/>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>

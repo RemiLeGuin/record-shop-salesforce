@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Endpoint__c</fullName>
     <caseSensitive>false</caseSensitive>
+    <description>Unique endpoint associated with the push subscription.</description>
     <externalId>true</externalId>
     <label>Endpoint</label>
     <length>255</length>
