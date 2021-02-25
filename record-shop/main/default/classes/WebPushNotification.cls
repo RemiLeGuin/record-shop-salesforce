@@ -1,11 +1,24 @@
 public with sharing class WebPushNotification implements Queueable, Database.AllowsCallouts {
 
     public List<Subscription__c> subscriptions;
-    public String message;
+    public String title;
+    public String body;
+    public String icon;
+    public String image;
+    public String badge;
 
-    public WebPushNotification(List<Subscription__c> subscriptions, String message) {
+    public WebPushNotification(List<Subscription__c> subscriptions,
+                               String title,
+                               String body,
+                               String icon,
+                               String image,
+                               String badge) {
         this.subscriptions = subscriptions;
-        this.message = message;
+        this.title = title;
+        this.body = body;
+        this.icon = icon;
+        this.image = image;
+        this.badge = badge;
     }
 
     public void execute(QueueableContext context) {
@@ -22,8 +35,26 @@ public with sharing class WebPushNotification implements Queueable, Database.All
             gen.writeStringField('auth', subscription.auth__c);
             gen.writeStringField('vapidPublicKey', '{!$Credential.Username}');
             gen.writeStringField('vapidPrivateKey', '{!$Credential.Password}');
-            gen.writeStringField('payload', message);
+            gen.writeFieldName('payload');
+            gen.writeStartObject();
+            if(String.isNotBlank(title)) {
+                gen.writeStringField('title', title);
+            }
+            if(String.isNotBlank(body)) {
+                gen.writeStringField('body', body);
+            }
+            if(String.isNotBlank(icon)) {
+                gen.writeStringField('icon', icon);
+            }
+            if(String.isNotBlank(image)) {
+                gen.writeStringField('image', image);
+            }
+            if(String.isNotBlank(badge)) {
+                gen.writeStringField('badge', badge);
+            }
             gen.writeEndObject();
+            gen.writeEndObject();
+            gen.close();
             request.setBody(gen.getAsString());
 
             HttpResponse response = new Http().send(request);

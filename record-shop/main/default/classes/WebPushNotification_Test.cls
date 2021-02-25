@@ -1,0 +1,1 @@
+public class WebPushNotification_Test {}
