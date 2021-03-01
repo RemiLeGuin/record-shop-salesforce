@@ -1,11 +1,12 @@
 trigger Record on Record__c (after update) {
-    List<Subscription__c> subscriptions = [SELECT Endpoint__c, p256dh__c, auth__c FROM Subscription__c];
+    Subscription__c[] subscriptions = [SELECT Endpoint__c, p256dh__c, auth__c FROM Subscription__c];
+    Record__c[] likedRecords = new Record__c[] {};
     for (Record__c record : Trigger.new) {
-        System.enqueueJob(new WebPushNotification(subscriptions,
-                                                  record.Name + ' from ' + record.Artist__c + ' has been liked!',
-                                                  'It now scores ' + record.Likes__c + ' likes.',
-                                                  null,
-                                                  record.Cover__c,
-                                                  null));
+        if (record.Likes__c > Trigger.oldMap.get(record.Id).Likes__c) {
+            likedRecords.add(record);
+        }
+    }
+    if (!subscriptions.isEmpty() && !likedRecords.isEmpty()) {
+        System.enqueueJob(new WebPushNotification(subscriptions, likedRecords, 'LikedRecordPayload'));
     }
 }
