@@ -13,9 +13,13 @@ public with sharing class LikedRecordPayload implements PayloadComposition {
     public static WebPushNotificationPayload getPayload(SObject salesforceRecord) {
         Record__c record = (Record__c)salesforceRecord;
         WebPushNotificationPayload payload = new WebPushNotificationPayload();
-        payload.title = record.Name + ' from ' + record.Artist__c + ' has been liked!';
-        payload.body = 'It now scores ' + record.Likes__c + ' likes.';
-        payload.imageUrl = record.Cover__c;
+        String[] titleParameters = new String[] { record.Name, record.Artist__c };
+        payload.title = String.format(System.Label.LikeNotificationTitle, titleParameters);
+        String[] bodyParameters = new String[] { String.valueOf((Integer)record.Likes__c) };
+        payload.body = String.format(System.Label.LikeNotificationBody, bodyParameters);
+        payload.icon = System.Label.RecordShopIcon;
+        payload.image = record.Cover__c;
+        payload.badge = System.Label.RecordShopIconMonochrome;
         return payload;
     }
 

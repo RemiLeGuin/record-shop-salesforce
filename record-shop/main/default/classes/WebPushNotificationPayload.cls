@@ -6,7 +6,7 @@
 public class WebPushNotificationPayload {
     public String title;
     public String body;
-    public String iconUrl;
-    public String imageUrl;
-    public String badgeUrl;
+    public String icon;
+    public String image;
+    public String badge;
 }

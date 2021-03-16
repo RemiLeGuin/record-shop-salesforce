@@ -9,6 +9,12 @@ public with sharing class WebPushNotification implements Queueable, Database.All
     public SObject[] records;
     public String payloadType;
 
+    /**
+     * @description Queueable class using a generator to send web push notifications.
+     * @param subscriptions List of subscriptions SObject records to send a notification to.
+     * @param records List of SObject records for which to display notifications.
+     * @param payloadType Name of the class implementing the PayloadComposition interface to compose the desired payload.
+     */
     public WebPushNotification(Subscription__c[] subscriptions, SObject[] records, String payloadType) {
         this.subscriptions = subscriptions;
         this.records = records;
@@ -16,7 +22,7 @@ public with sharing class WebPushNotification implements Queueable, Database.All
     }
 
     /**
-     * @description Once the job is enqueued, standard method listing methods to execute for classes which implement queueable.
+     * @description Once the job is enqueued, standard method to execute for classes implementing the queueable interface.
      * @param context Standard parameter to instanciate a job.
      */
     public void execute(QueueableContext context) {
@@ -36,7 +42,7 @@ public with sharing class WebPushNotification implements Queueable, Database.All
     }
 
     /**
-     * @description Compose a WebPushNotificationPayload object ready to be serialized.
+     * @description Make a callout to the web push notification generator service.
      * @param subscriptions List of subscriptions SObject records to send a notification to.
      * @param payloads List of payloads containing information to display in the notification.
      * @return Webservice response from the generator.
@@ -44,7 +50,7 @@ public with sharing class WebPushNotification implements Queueable, Database.All
     @TestVisible
     private static HttpResponse sendNotifications(Subscription__c[] subscriptions, WebPushNotificationPayload[] payloads) {
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('callout:WebPushNotification' + '/sendNotifications');
+        request.setEndpoint('callout:WebPushNotification/sendNotifications');
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json;charset=UTF-8');
 
@@ -67,6 +73,7 @@ public with sharing class WebPushNotification implements Queueable, Database.All
         generator.writeEndObject();
         generator.close();
         request.setBody(generator.getAsString());
+        System.debug(request.getBody());
 
         HttpResponse response = new Http().send(request);
         return response;
